@@ -3,6 +3,9 @@ package com.sharito.demo.fruteria.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,23 +26,30 @@ public class FrutaController {
 	private FrutaService frutaService;
 
 	@PostMapping
-	public FrutaDto crear(@RequestBody FrutaDto frutaDto) {
-		return frutaService.crear(frutaDto);
+	public ResponseEntity<FrutaDto> crear(@RequestBody FrutaDto frutaDto) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(frutaService.crear(frutaDto));
 	}
 
 	@PutMapping("/modificar/{id}")
-	public FrutaDto modificar(@RequestBody FrutaDto frutaDto, @PathVariable Integer id) {
-		return frutaService.modificar(frutaDto, id);
+	public ResponseEntity<FrutaDto> modificar(@RequestBody FrutaDto frutaDto, @PathVariable Integer id) {
+		return ResponseEntity.status(HttpStatus.CREATED).body(frutaService.modificar(frutaDto, id));
 	}
 
 	@GetMapping
-	public List<FrutaDto> consultarFrutas() {
-		return frutaService.consultarFrutas();
+	public ResponseEntity<List<FrutaDto>> consultarFrutas() {
+		return ResponseEntity.ok(frutaService.consultarFrutas());
+	}
+	
+	@GetMapping("/consultarporid/{id}")
+	public ResponseEntity<FrutaDto> consultarFrutaPorId(@PathVariable Integer id) {
+		return ResponseEntity.ok(frutaService.consultarFrutaPorId(id));
 	}
 
 	@DeleteMapping("/eliminar/{id}")
-	public void eliminar(@PathVariable Integer id) {
+	public ResponseEntity<Void> eliminar(@PathVariable Integer id) {
 		frutaService.eliminar(id);
+		return ResponseEntity.noContent().build();
+
 	}
 
 }

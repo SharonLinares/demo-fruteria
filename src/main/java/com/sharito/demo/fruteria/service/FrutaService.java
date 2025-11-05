@@ -2,7 +2,6 @@ package com.sharito.demo.fruteria.service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -19,8 +18,6 @@ public class FrutaService {
 		super();
 		this.frutaRepository = frutaRepository;
 	}
-
-
 
 	public FrutaDto crear(FrutaDto frutaDto) {
 		FrutaEntity frutaEntity = new FrutaEntity();
@@ -56,6 +53,16 @@ public class FrutaService {
 		}
 
 		return frutasDto;
+	}
+
+	public FrutaDto consultarFrutaPorId(Integer id) {
+		FrutaEntity frutaEntity = frutaRepository.findById(id).orElse(null);
+		FrutaDto frutaDto = new FrutaDto();
+		frutaDto.setId(frutaEntity.getId());
+		frutaDto.setNombre(frutaEntity.getNombre());
+		frutaDto.setPrecio(frutaEntity.getPrecio());
+		return frutaDto;
+
 	}
 
 	public void eliminar(Integer id) {
